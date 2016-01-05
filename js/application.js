@@ -148,6 +148,31 @@ $('.video-container').fitVids();
 /******************** SCROLL ANIMATION ********************/
 window.sr = new scrollReveal();
 
+/******************** SWEET ALERT ************************/
 
-
+$(".btn-subscribe").click(function() {
+  swal({
+    title: "Hold your horses",
+    text: "We're not done yet. We're glad you're interested in Scholp",
+    type: "input",
+    showCancelButton: true,
+    closeOnConfirm: false,
+    showLoaderOnConfirm: true,
+    inputPlaceholder: "Notify me when you launch"
+  }, function(inputValue) {
+    setTimeout(function(){
+      if(inputValue === false) return false;
+      if(inputValue === "") swal.showInputError("You have to enter an email address");
+      else {
+        var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(re.test(inputValue)) {
+          swal("Thank you!", "You'll be the first to know when we launch", "success");
+        } else {
+          swal.showInputError("You have to enter a valid email address");
+        }
+      }
+    }, 2000);
+    return false;
+  });
+});
 });
