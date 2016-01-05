@@ -158,7 +158,9 @@ $(".btn-subscribe").click(function() {
     showCancelButton: true,
     closeOnConfirm: false,
     showLoaderOnConfirm: true,
-    inputPlaceholder: "Notify me when you launch"
+    confirmButtonText: "Submit",
+    confirmButtonColor: "#3aaad7",
+    inputPlaceholder: "Enter your email address"
   }, function(inputValue) {
     setTimeout(function(){
       if(inputValue === false) return false;
