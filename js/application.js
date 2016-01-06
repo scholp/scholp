@@ -148,8 +148,8 @@ $('.video-container').fitVids();
 /******************** SCROLL ANIMATION ********************/
 window.sr = new scrollReveal();
 
-/******************** SWEET ALERT ************************/
 
+/******************** SWEET ALERT ************************/
 $(".btn-subscribe").click(function() {
   swal({
     title: "Hold your horses",
@@ -163,11 +163,17 @@ $(".btn-subscribe").click(function() {
     inputPlaceholder: "Enter your email address"
   }, function(inputValue) {
     setTimeout(function(){
-      if(inputValue === false) return false;
-      if(inputValue === "") swal.showInputError("You have to enter an email address");
-      else {
+      if(inputValue === false) {
+        mixpanel.track("Empty email field", {"type": "undefined"});
+        return false;
+      }
+      if(inputValue === ""){
+        mixpanel.track("Empty email field", {"type": "empty"});
+        swal.showInputError("You have to enter an email address");
+      } else {
         var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if(re.test(inputValue)) {
+          mixpanel.track("correct email sent", {"type": "good"});
           $.ajax({
             type: "POST",
             url: "http://api.scholp.com/api/subscribers",
@@ -178,7 +184,7 @@ $(".btn-subscribe").click(function() {
               swal("Thank you!", "You'll be the first to know when we launch", "success");
             },
             failure: function(errMsg) {
-              swal.showInputError(errMsg + " Please try again");
+              swal.showInputError(errMsg + ": Please try again");
             }
           });
         } else {
@@ -189,4 +195,12 @@ $(".btn-subscribe").click(function() {
     return false;
   });
 });
+
+
+/****************** MIXPANEL EVENTS TRACKING *************************/
+mixpanel.track_links(".btn-appstore-download", "Appstore button click");
+mixpanel.track_links(".btn-playstore-download", "Playstore button click");
+mixpanel.track_links(".btn-download-home", "Download button click from Home section");
+mixpanel.track_links(".btn-download-description", "Download button click from description section");
+
 });
