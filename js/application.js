@@ -168,12 +168,24 @@ $(".btn-subscribe").click(function() {
       else {
         var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if(re.test(inputValue)) {
-          swal("Thank you!", "You'll be the first to know when we launch", "success");
+          $.ajax({
+            type: "POST",
+            url: "http://api.scholp.com/api/subscribers",
+            data: JSON.stringify({email: inputValue}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(data) {
+              swal("Thank you!", "You'll be the first to know when we launch", "success");
+            },
+            failure: function(errMsg) {
+              swal.showInputError(errMsg + " Please try again");
+            }
+          });
         } else {
           swal.showInputError("You have to enter a valid email address");
         }
       }
-    }, 2000);
+    }, 1500);
     return false;
   });
 });
