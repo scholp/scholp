@@ -151,14 +151,28 @@ window.sr = new scrollReveal();
 
 /******************** SWEET ALERT ************************/
 $(".btn-subscribe").click(function() {
+  dialog("Hold your horses", "We're not done yet. We're glad you're interested in Scholp", "Notify me when you launch");
+});
+
+$(".btn-download-home").click(function() {
+  dialog("Subscribe now", "Subscribe for scholarship updates", "Subscribe");
+})
+
+/****************** MIXPANEL EVENTS TRACKING *************************/
+mixpanel.track_links(".btn-appstore-download", "Appstore button click");
+mixpanel.track_links(".btn-playstore-download", "Playstore button click");
+mixpanel.track_links(".btn-download-home", "Download button click from Home section");
+mixpanel.track_links(".btn-download-description", "Download button click from description section");
+
+var dialog = function(title, text, confirmButtonText, subscribe) {
   swal({
-    title: "Hold your horses",
-    text: "We're not done yet. We're glad you're interested in Scholp",
+    title: title,
+    text: text,
     type: "input",
     showCancelButton: true,
     closeOnConfirm: false,
     showLoaderOnConfirm: true,
-    confirmButtonText: "Notify me when you launch",
+    confirmButtonText: confirmButtonText,
     confirmButtonColor: "#3aaad7",
     inputPlaceholder: "Enter your email address"
   }, function(inputValue) {
@@ -194,13 +208,5 @@ $(".btn-subscribe").click(function() {
     }, 1500);
     return false;
   });
-});
-
-
-/****************** MIXPANEL EVENTS TRACKING *************************/
-mixpanel.track_links(".btn-appstore-download", "Appstore button click");
-mixpanel.track_links(".btn-playstore-download", "Playstore button click");
-mixpanel.track_links(".btn-download-home", "Download button click from Home section");
-mixpanel.track_links(".btn-download-description", "Download button click from description section");
-
+}
 });
